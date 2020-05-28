@@ -2,14 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import './ContactList.scss';
+import { ENV } from "../../core/constants";
 import * as actions from '../../core/actions';
 import ContactList from '../../components/contact-list/ContactList';
 import ContactPopup from '../../components/contact-popup/ContactPopup';
+import contactervice from '../../core/services/contact.service';
 
 class ContactListContainer extends React.Component {
     state = {
         isShow: false,
         deleteId: null
+    }
+
+    componentDidMount() {
+        this.props.getContacts();
     }
 
     onAddHandler = () => {
@@ -21,7 +27,17 @@ class ContactListContainer extends React.Component {
     }
 
     onConfirmDelete = () => {
-        const contacts = this.props.contacts.filter(contact => contact.id !== this.state.deleteId)
+        const { deleteId } = this.state;
+        fetch(ENV + 'contacts/' + deleteId + '.json', {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(result => {
+                // this.props.updateContacts(contacts);
+            })
+            .catch(error => console.log(error));
+
+        const contacts = this.props.contacts.filter(contact => contact.id !== deleteId)
         this.props.updateContacts(contacts);
         this.onToggleShow();
     }
@@ -65,7 +81,8 @@ const mapStateToProps = (state) => ({ contacts: state.contactReducer.contacts })
 const mapDispatchToProps = (dispatch) => ({
     updateContacts: (contacts) => {
         dispatch(actions.updateContacts(contacts))
-    }
+    },
+    getContacts: () => dispatch(contactervice.getContacts())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactListContainer);

@@ -1,30 +1,16 @@
-import { UPDATE_CONTACTS } from "../constants";
+import { UPDATE_CONTACTS, SET_LOADER } from "../constants";
 
 const INITIAL_STATE = {
-    contacts: [
-        {
-            id: 1,
-            firstName: "Aa",
-            lastName: "Bb",
-            email: "aa@gmail.com",
-            mobile: "1234567890",
-            status: "Active",
-        },
-        {
-            id: 2,
-            firstName: "Cc",
-            lastName: "Dd",
-            email: "cc@gmail.com",
-            mobile: "1234567890",
-            status: "Inactive",
-        },
-    ]
+    contacts: [],
+    isShow: false
 }
 
 const reducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case UPDATE_CONTACTS:
             return { ...state, contacts: action.payload };
+        case SET_LOADER:
+            return { ...state, isShow: action.payload };
         default:
             return state;
     }
