@@ -11,4 +11,4 @@ The page will reload if you make edits.
 
 ### `Web URL`
 
-Website is hosted on [https://react-contact-ed430.web.app](server)
+Website is hosted on [Server](https://react-contact-ed430.web.app)
